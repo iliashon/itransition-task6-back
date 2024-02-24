@@ -2,6 +2,10 @@ const boards = require("../boards");
 
 module.exports = function drawingHandler(socket) {
     const { board } = socket.handshake.query;
+    if (!boards[board]) {
+        socket.emit("error");
+        return;
+    }
     socket.join(board);
 
     socket.on("drawing", (data) => {
@@ -15,5 +19,6 @@ module.exports = function drawingHandler(socket) {
 
     function updateBoards(id, data) {
         boards[id].data.push(data);
+        boards[id].preview = data.image;
     }
 };

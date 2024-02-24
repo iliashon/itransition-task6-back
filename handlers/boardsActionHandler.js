@@ -10,6 +10,10 @@ module.exports = function boardsActionHandler(socket) {
         };
         dispatchGetBoards(boards);
     });
+    socket.on("delete-board", (data) => {
+        delete boards[data];
+        dispatchGetBoards(boards);
+    });
     socket.on("get-boards", () => {
         dispatchGetBoards(boards);
     });
